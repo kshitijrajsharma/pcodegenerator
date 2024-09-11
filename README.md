@@ -23,3 +23,12 @@ License :  CC BY 4.0 license
 
 ![image](https://github.com/user-attachments/assets/3fd2f61a-5618-4b6c-a5ba-79cff4cd40ea)
 
+
+### Global boundaries with COD attributes ( Including subnational geom )
+Source : https://fieldmaps.io/data 
+
+API :  https://data.fieldmaps.io/edge-matched.json 
+
+License : Open Data Commons Open Database License (ODbL) 
+
+![image](https://github.com/user-attachments/assets/639882ee-9148-478c-81a2-820c75ae15ff)
