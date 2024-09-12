@@ -1,6 +1,6 @@
 [project]
 name = "pcodegenerator"
-version = "0.0.1"
+version = "0.1.0"
 dynamic = ["version"]
 description = "Command line script to generate pcodes from your spatial dataset"
 readme = "README.md"
