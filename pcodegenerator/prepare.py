@@ -6,6 +6,8 @@ import zipfile
 
 import requests
 
+from .__version__ import __version__
+
 
 def fetch_fieldmaps_data():
     url = "https://data.fieldmaps.io/edge-matched.json"
@@ -18,10 +20,8 @@ def download_and_extract(url, extract_path):
     zip_path = os.path.join(extract_path, "temp.zip")
     with open(zip_path, "wb") as f:
         f.write(response.content)
-
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(extract_path)
-
     os.remove(zip_path)
     return [f for f in os.listdir(extract_path) if f.endswith(".gpkg")][0]
 
@@ -47,28 +47,20 @@ def create_meta_json(output_path, date, url):
 
 def main(admin_level, output_path):
     os.makedirs(output_path, exist_ok=True)
-
     fieldmaps_data = fetch_fieldmaps_data()
     relevant_data = next(
-        (
-            item
-            for item in fieldmaps_data
-            if item["adm"] == admin_level and item["grp"] == "humanitarian"
-        ),
+        (item for item in fieldmaps_data if item["adm"] == admin_level and item["grp"] == "humanitarian"),
         None,
     )
-
     if not relevant_data:
         print(f"No data found for admin level {admin_level}")
         return
 
     date = relevant_data["date"]
     url = relevant_data["a_gpkg"]
-    output_geoparquet_file = os.path.join(
-        output_path, f"adm{admin_level}_polygons.parquet"
-    )
-
+    output_geoparquet_file = os.path.join(output_path, f"adm{admin_level}_polygons.parquet")
     meta_file = os.path.join(output_path, "meta.json")
+
     if os.path.exists(meta_file):
         with open(meta_file, "r") as f:
             existing_meta = json.load(f)
@@ -95,13 +87,15 @@ def main(admin_level, output_path):
     print(f"Process completed. Output saved to {output_geoparquet_file}")
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Prepare Fieldmaps data")
+def run_as_script():
+    parser = argparse.ArgumentParser(description="Prepare Fieldmaps admin boundary cod data for pcodegenerator")
     parser.add_argument("--admin", type=int, help="Admin level (1-4)")
-    parser.add_argument(
-        "--output", default=os.getcwd(), help="Path for output GeoParquet file"
-    )
+    parser.add_argument("--output", default=os.getcwd(), help="Path for output GeoParquet file")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
 
     args = parser.parse_args()
-
     main(args.admin, args.output)
+
+
+if __name__ == "__main__":
+    run_as_script()

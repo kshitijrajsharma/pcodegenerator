@@ -1,6 +1,31 @@
 # pcodegenerator
 Generates pcodes for geospatial datasets based on COD 
 
+## Install : 
+```bash
+pip install pcodegenerator
+```
+
+Make sure you have ogr2ogr installed on your machine too.
+
+## Prepare :
+
+Download / Update with the latest COD edge matched dataset , Know more https://fieldmaps.io/ 
+
+```bash
+pcodeprepare --admin 4
+```
+
+## Usage
+
+Example to add pcode dataset on localities 
+
+```bash
+pcodegenerator --source ./adm4_polygons.parquet --input locality.geojson --output locality_pcodes.geojson
+```
+
+
+
 ## Resources : 
 All credits to respective providers 
 

@@ -1,4 +1,0 @@
-data/** filter=lfs diff=lfs merge=lfs -text
-data/adm0.parquet filter=lfs diff=lfs merge=lfs -text
-data/adm1.parquet filter=lfs diff=lfs merge=lfs -text
-data/adm2.parquet filter=lfs diff=lfs merge=lfs -text
