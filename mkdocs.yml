@@ -2,7 +2,7 @@ site_name: pcodegenerator
 site_description: Command line script to generate pcodes from your spatial dataset
 site_url: "https://github.com/kshitijrajsharma/pcodegenerator"
 
-repo_name: "kshitijrajsharma/cog2he"
+repo_name: "kshitijrajsharma/pcodegenerator"
 repo_url: "https://github.com/kshitijrajsharma/pcodegenerator"
 edit_uri: "edit/main/docs/"
 
@@ -53,4 +53,6 @@ plugins:
             merge_init_into_class: true
 
 nav:
-  - Home: index.html
+  - Home: README.md
+  - Dev: dev.md
+  - Preprocess : prepare-admin-data.md
