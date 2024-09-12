@@ -1,3 +1,9 @@
+## 0.2.0 (2024-09-12)
+
+### Feat
+
+- **streamlit**: adds streamlit visualization for the pcodegenerator
+
 ## 0.1.0 (2024-09-12)
 
 ### Feat
