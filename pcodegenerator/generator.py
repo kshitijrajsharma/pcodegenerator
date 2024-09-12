@@ -29,20 +29,25 @@ def load_admin4cod(source):
 
 
 def process_input(conn, input_data, intersection_method="centroid"):
-    if input_data.endswith(".geojson"):
-        gdf = gpd.read_file(input_data)
-    elif input_data.endswith(".parquet"):
-        gdf = gpd.read_parquet(input_data)
-    else:
-        try:
+    if isinstance(input_data, gpd.GeoDataFrame):
+        gdf = input_data
+    elif isinstance(input_data, str):
+        if input_data.endswith(".geojson"):
             gdf = gpd.read_file(input_data)
-        except:
-            raise ValueError("Invalid input format. Must be GeoJSON or GeoParquet.")
+        elif input_data.endswith(".parquet"):
+            gdf = gpd.read_parquet(input_data)
+        else:
+            try:
+                gdf = gpd.read_file(input_data)
+            except:
+                raise ValueError("Invalid input format. Must be GeoJSON or GeoParquet.")
+    else:
+        raise ValueError("Input must be a GeoDataFrame or a file path string.")
 
     print(gdf)
 
     if intersection_method == "centroid":
-        gdf["geometry"] = gdf.to_crs(3857)["geometry"].centroid
+        gdf["geometry"] = gdf["geometry"].centroid
 
     gdf = gdf.to_wkb()
     create_table_query = (
@@ -66,23 +71,17 @@ def process_input(conn, input_data, intersection_method="centroid"):
     where ST_Within(i.geometry, a.geometry)
     """
     print(query)
-    result = conn.execute(query).fetchdf()
-    return result
+    result_df = conn.execute(query).fetchdf()
+    result_df["geometry"] = result_df["geometry"].apply(wkb.loads)
+    result_gpd = gpd.GeoDataFrame(result_df, geometry="geometry", crs=4326)
+    return result_gpd
 
 
-def main(source_cod, input_data, output, intersection_method="centroid"):
+def main(source_cod, input_data, intersection_method="centroid"):
     conn = load_admin4cod(source_cod)
     result = process_input(conn, input_data, intersection_method)
     print(result)
-    result["geometry"] = result["geometry"].apply(wkb.loads)
-    result = gpd.GeoDataFrame(result, geometry="geometry", crs=4326)
-
-    if output.endswith(".geojson"):
-        result.to_file(output, driver="GeoJSON")
-    elif output.endswith(".parquet"):
-        result.to_parquet(output)
-    else:
-        raise ValueError("Invalid output format. Must be GeoJSON or GeoParquet.")
+    return result
 
 
 def run_as_script():
@@ -93,7 +92,13 @@ def run_as_script():
     parser.add_argument("--method", default="centroid", choices=["centroid"], help="Intersection method")
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     args = parser.parse_args()
-    main(args.source, args.input, args.output, args.method)
+    result = main(args.source, args.input, args.method)
+    if args.output.endswith(".geojson"):
+        result.to_file(args.output, driver="GeoJSON")
+    elif args.output.endswith(".parquet"):
+        result.to_parquet(args.output)
+    else:
+        raise ValueError("Invalid output format. Must be GeoJSON or GeoParquet.")
 
 
 if __name__ == "__main__":
