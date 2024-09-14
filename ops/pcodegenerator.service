@@ -1,0 +1,15 @@
+[Unit]
+Description=Pcode Generator
+Documentation=https://github.com/kshitijrajsharma/pcodegenerator/
+After=network.target syslog.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/kshitij/pcodegenerator
+ExecStart=/home/kshitij/pcodegenerator/env/bin/python -m streamlit run visualize.py --server.address 0.0.0.0 --server.port 5050
+ReadWritePaths=/home/kshitij/pcodegenerator
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
