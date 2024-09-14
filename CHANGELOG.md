@@ -1,3 +1,9 @@
+## 0.2.1 (2024-09-14)
+
+### Fix
+
+- **featurelength**: fixes bug on total output of features
+
 ## 0.2.0 (2024-09-12)
 
 ### Feat
