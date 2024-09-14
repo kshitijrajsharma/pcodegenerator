@@ -70,7 +70,8 @@ def main():
 
     source_url = st.text_input(
         "Enter the source URL for admin4cod GeoParquet file",
-        value="https://staging-raw-data-api.s3.amazonaws.com/default/cod/adm4_polygons.parquet",
+        value="adm4_polygons.parquet",
+        # value="https://staging-raw-data-api.s3.amazonaws.com/default/cod/adm4_polygons.parquet",
     )
 
     output_format = st.selectbox("Select output format", ["GeoJSON", "GeoParquet", "ESRI Shapefile", "GeoPackage", "CSV", "Excel"])
