@@ -1,3 +1,9 @@
+## 0.2.2 (2024-09-14)
+
+### Fix
+
+- **admin4**: fixes admin4 code on pcodes
+
 ## 0.2.1 (2024-09-14)
 
 ### Fix
