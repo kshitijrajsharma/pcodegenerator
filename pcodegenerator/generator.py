@@ -50,9 +50,8 @@ def process_input(conn, input_data, intersection_method="centroid"):
         gdf["geometry"] = gdf["geometry"].centroid
 
     gdf = gdf.to_wkb()
-    create_table_query = (
-        f"CREATE TABLE IF NOT EXISTS input_data AS (select * EXCLUDE geometry, ST_GeomFromWKB(geometry) AS geometry from gdf)"
-    )
+    conn.sql("DROP TABLE IF EXISTS input_data;")
+    create_table_query = f"CREATE TABLE input_data AS (select * EXCLUDE geometry, ST_GeomFromWKB(geometry) AS geometry from gdf)"
     print(create_table_query)
     conn.execute(create_table_query)
 

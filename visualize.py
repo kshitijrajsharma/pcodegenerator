@@ -75,7 +75,7 @@ def main():
 
     output_format = st.selectbox("Select output format", ["GeoJSON", "GeoParquet", "ESRI Shapefile", "GeoPackage", "CSV", "Excel"])
 
-    intersection_method = st.selectbox("Select intersection method", ["centroid"])
+    intersection_method = st.selectbox("Select pcode calculation method", ["centroid"])
 
     if st.button("Generate PCodes"):
         with st.spinner("Processing..."):
@@ -91,7 +91,10 @@ def main():
                 result_gdf = pcode_generator.main(source_url, gdf, intersection_method)
 
                 st.subheader("Top 50 rows of the result")
-                df = result_gdf.drop(columns=["geometry"])
+                st.text(f"Total Input Features : {len(gdf.index)}")
+                st.text(f"Total Output Features : {len(result_gdf.index)}")
+
+                df = result_gdf.copy().drop(columns=["geometry"])
                 st.write(df.head(50))
 
                 # Prepare output based on selected format
