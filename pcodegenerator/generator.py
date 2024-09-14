@@ -62,7 +62,7 @@ def process_input(conn, input_data, intersection_method="centroid"):
     a.adm1_name as adm1_name,
     a.adm2_name as adm2_name,
     a.adm3_name as adm3_name,
-    a.adm3_name as adm4_name,
+    a.adm4_name as adm4_name,
     COALESCE(a.adm4_src, a.adm3_src, a.adm2_src, a.adm1_src, a.adm0_src) AS pcode,
     a.src_url as pcode_src,
     ST_AsHEXWKB(i.geometry) as geometry
