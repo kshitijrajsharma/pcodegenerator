@@ -1,22 +1,27 @@
-## Installation 
+## Installation
 
 - Install precommit
-``` shell
+
+```shell
 pip install pre-commit
 ```
-- Install dev dependencies 
+
+- Install dev dependencies
+
 ```shell
 pre-commit install
 ```
 
-- Run Precommit against all files 
-```shell 
+- Run Precommit against all files
+
+```shell
 pre-commit run --all-files
 ```
 
-- Install locally 
+- Install locally
+
 ```shell
-pip install -e . 
+pip install -e .
 ```
 
-- Start Developing ! 
+- Start Developing !

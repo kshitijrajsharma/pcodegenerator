@@ -1,6 +1,6 @@
 # Preparing Admin Data
 
-## Run Commandline 
+## Run Commandline
 
 ```bash
 pcodeprepare --admin 4
